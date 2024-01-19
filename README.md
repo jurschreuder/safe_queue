@@ -10,6 +10,7 @@ Thread Safe Queue in C++
 
 ```bash
 mkdir build
+cd build
 cmake ..
 make
 ./safe_queue
