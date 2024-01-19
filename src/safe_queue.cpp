@@ -10,23 +10,26 @@
 int main() {
   std::cout << "Simple (thread) Safe Queue example.\n";
 
+  std::cout << "=========== Demo 1: Basic ===========\n";
+
+	// new queue
+	SafeQueue<int> basic_queue;
+
+	// put three in
+	basic_queue.put(1);
+	basic_queue.put(2);
+	basic_queue.put(3);
+
+	// get three out
+	for(int i = 0; i < 3; ++i){
+    int item = basic_queue.get();
+    std::cout << "Item: " << item << "\n";
+	}
+
+  std::cout << "=========== Demo 2: Thread ===========\n";
+
   // new queue
   std::shared_ptr<SafeQueue<int>> queue = std::make_shared<SafeQueue<int>>();
-
-  std::cout << "=========== Demo 1 ===========\n";
-
-  // put three in
-  queue->put(1);
-  queue->put(2);
-  queue->put(3);
-
-  // get three out
-  for(int i = 0; i < 3; ++i){
-    int item = queue->get();
-    std::cout << "Item: " << item << "\n";
-  }
-
-  std::cout << "=========== Demo 2 ===========\n";
 
   // listen to the queue in a thread
   std::thread test_thread = std::thread([queue](){
@@ -47,7 +50,7 @@ int main() {
 		std::this_thread::sleep_for(std::chrono::milliseconds(500));
 	}
 
-  std::cout << "=========== Demo 3 ===========\n";
+  std::cout << "=========== Demo 3: Max size ===========\n";
 
   // If the queue is processed too slow and we want to stop
   // adding items if there are too many items already

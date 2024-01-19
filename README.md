@@ -21,19 +21,20 @@ make
 ## Basic
 
 ```cpp
+// some things you'll need
 #include <iostream>
 
 // new queue
-std::shared_ptr<SafeQueue<int>> queue = std::make_shared<SafeQueue<int>>();
+SafeQueue<int> queue;
 
 // put three in
-queue->put(1);
-queue->put(2);
-queue->put(3);
+queue.put(1);
+queue.put(2);
+queue.put(3);
 
 // get three out
 for(int i = 0; i < 3; ++i){
-    int item = queue->get();
+    int item = queue.get();
     std::cout << "Item: " << item << "\n";
 }
 
@@ -42,9 +43,13 @@ for(int i = 0; i < 3; ++i){
 ## Thread
 
 ```cpp
+// some things you'll need
 #include <iostream>
 #include <thread>
 #include <chrono>
+
+// new queue
+std::shared_ptr<SafeQueue<int>> queue = std::make_shared<SafeQueue<int>>();
 
 // listen to the queue in a thread
 std::thread test_thread = std::thread([queue](){
@@ -67,9 +72,13 @@ for(int i = 0; i < 3; ++i){
 ## Maximum number of items
 
 ```cpp
+// some things you'll need
 #include <iostream>
 #include <thread>
 #include <chrono>
+
+// new queue
+std::shared_ptr<SafeQueue<int>> queue = std::make_shared<SafeQueue<int>>();
 
 // listen to the queue in a thread
 std::thread test_thread = std::thread([queue](){
