@@ -1,12 +1,14 @@
 Thread Safe Queue in C++
 ===
 
+Example application to get you started can be found in `src/safe_queue.cpp`.
+
 # Header only library / snippet
 ```cpp
 #include "safe_queue.hpp"
 ```
 
-# Try out some examples
+# Try out the examples
 
 ```bash
 mkdir build
