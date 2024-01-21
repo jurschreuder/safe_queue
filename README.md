@@ -13,7 +13,10 @@ Example application to get you started can be found in `src/safe_queue.cpp`.
 Requirements:
 
 **Cmake > 3.5**
+
 **Catch2 > 3.0**
+
+Run:
 
 ```bash
 mkdir build
