@@ -118,9 +118,9 @@ If you're working with a lot of data, it's faster to create a unique pointer to 
 
 Run the tests to see a benchmark showing the performance increase.
 
-Example:
+#### Example:
 
-```
+```cpp
 for(int i = 0; i < 100; ++i){
   // make some big data
   auto big = std::make_unique<std::vector<int>>(1e6);
@@ -135,4 +135,59 @@ for(int i = 0; i < 100; ++i){
 }
 std::cout << "Got 100 to big_queue\n";
 
+```
+
+#### Benchmarks:
+
+```
+-------------------------------------------------------------------------------
+PutGet
+-------------------------------------------------------------------------------
+benchmark name                       samples       iterations    est run time
+                                     mean          low mean      high mean
+                                     std dev       low std dev   high std dev
+-------------------------------------------------------------------------------
+PutGet 1 item                                  100            18      2.133 ms 
+                                         1.1953 us     1.1843 us    1.23831 us 
+                                        96.1105 ns    17.3557 ns    221.307 ns 
+                                                                               
+PutGet 3 items                                 100             9     2.3292 ms 
+                                        2.69148 us    2.64209 us    2.77551 us 
+                                         321.14 ns    214.406 ns    463.596 ns 
+                                                                               
+PutGet 1000 items                              100             1    67.5246 ms 
+                                        676.699 us    674.708 us    679.362 us 
+                                        11.6007 us    9.23667 us     15.628 us 
+                                                                               
+PutGet 1000 items, with 1000                                                   
+elements each                                  100             1     3.52502 s 
+                                        35.2378 ms    35.2049 ms    35.3009 ms 
+                                        224.446 us    135.443 us    369.356 us 
+                                                                               
+```
+
+```
+-------------------------------------------------------------------------------
+PutGetMove
+-------------------------------------------------------------------------------
+benchmark name                       samples       iterations    est run time
+                                     mean          low mean      high mean
+                                     std dev       low std dev   high std dev
+-------------------------------------------------------------------------------
+PutGetMove 1 item                              100            27     2.1546 ms 
+                                        787.362 ns    782.206 ns    807.316 ns 
+                                        46.9645 ns    7.65404 ns     110.72 ns 
+                                                                               
+PutGetMove 3 items                             100            15     2.1765 ms 
+                                        1.45697 us    1.44714 us    1.49258 us 
+                                         85.606 ns    22.4203 ns    197.675 ns 
+                                                                               
+PutGetMove 1000 items                          100             1    30.3233 ms 
+                                        304.776 us    303.399 us    306.706 us 
+                                        8.31293 us    6.35508 us    11.3026 us 
+                                                                               
+PutGetMove 1000 items, with 1000                                               
+elements each                                  100             1     1.05036 s 
+                                        10.4601 ms    10.4415 ms    10.4847 ms 
+                                        108.646 us     82.545 us     154.92 us 
 ```
