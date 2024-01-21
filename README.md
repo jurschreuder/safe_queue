@@ -8,7 +8,12 @@ Example application to get you started can be found in `src/safe_queue.cpp`.
 #include "safe_queue.hpp"
 ```
 
-# Try out the examples
+# Try out the examples and run the tests
+
+Requirements:
+
+**Cmake > 3.5**
+**Catch2 > 3.0**
 
 ```bash
 mkdir build
@@ -16,6 +21,7 @@ cd build
 cmake ..
 make
 ./safe_queue
+./tests
 ```
 
 # How to use it?
@@ -103,5 +109,30 @@ for(int i = 0; i < 20; ++i){
 }
 // wait for this all to be over
 std::this_thread::sleep_for(std::chrono::milliseconds(500));
+
+```
+
+## Faster with move()
+
+If you're working with a lot of data, it's faster to create a unique pointer to the data you want in the queue, **move** it into the queue, and **move** it out of the queue again when you need it to gain back ownership again.
+
+Run the tests to see a benchmark showing the performance increase.
+
+Example:
+
+```
+for(int i = 0; i < 100; ++i){
+  // make some big data
+  auto big = std::make_unique<std::vector<int>>(1e6);
+  // notice the move here 
+  big_queue->put_move(std::move(big));
+}
+std::cout << "Added 100 to big_queue\n";
+
+for(int i = 0; i < 100; ++i){
+  // notice the move here
+  auto big = big_queue->get_move();
+}
+std::cout << "Got 100 to big_queue\n";
 
 ```
