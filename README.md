@@ -1,6 +1,8 @@
 Thread Safe Queue in C++
 ===
 
+![tests](https://github.com/jurschreuder/safe_queue/actions/workflows/test-ubuntu.yml/badge.svg)
+
 Example application to get you started can be found in `src/safe_queue.cpp`.
 
 # Header only library / snippet
