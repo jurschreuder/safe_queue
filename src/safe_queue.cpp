@@ -10,7 +10,7 @@
 int main() {
   std::cout << "Simple (thread) Safe Queue example.\n";
 
-  std::cout << "=========== Demo 1: Basic ===========\n";
+  std::cout << "\n=========== Demo 1: Basic ===========\n";
 
 	// new queue
 	SafeQueue<int> basic_queue;
@@ -26,7 +26,7 @@ int main() {
     std::cout << "Item: " << item << "\n";
 	}
 
-  std::cout << "=========== Demo 2: Thread ===========\n";
+  std::cout << "\n=========== Demo 2: Thread ===========\n";
 
   // new queue
   std::shared_ptr<SafeQueue<int>> queue = std::make_shared<SafeQueue<int>>();
@@ -50,7 +50,7 @@ int main() {
 		std::this_thread::sleep_for(std::chrono::milliseconds(500));
 	}
 
-  std::cout << "=========== Demo 3: Max size ===========\n";
+  std::cout << "\n=========== Demo 3: Max size ===========\n";
 
   // If the queue is processed too slow and we want to stop
   // adding items if there are too many items already
@@ -62,6 +62,22 @@ int main() {
   // wait till completed
   std::this_thread::sleep_for(std::chrono::milliseconds(500));
 
+
+  std::cout << "\n=== Demo 4: Pass ownership and get ownership from the queue ===\n";
+
+  auto big_queue = std::make_shared<SafeQueue<std::unique_ptr<std::vector<int>>>>();
+
+  for(int i = 0; i < 100; ++i){
+    // make some big data
+    auto big = std::make_unique<std::vector<int>>(1e6);
+    big_queue->put_move(std::move(big));
+  }
+  std::cout << "Added 100 to big_queue\n";
+
+  for(int i = 0; i < 100; ++i){
+    auto big = big_queue->get_move();
+  }
+  std::cout << "Got 100 to big_queue\n";
 
 	return 0;
 }	
