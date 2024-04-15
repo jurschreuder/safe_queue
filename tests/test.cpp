@@ -133,3 +133,48 @@ TEST_CASE( "PutGetMove", "[items_n, vec_size]" ) {
     };
 }
 
+// Usage when using a shared pointer
+int PutGetShared( int items_n, int vec_size ) {
+	// new queue
+  auto queue = std::make_shared<SafeQueue<std::shared_ptr<std::vector<int>>>>();
+
+	// put items_n in
+  for(int i = 0; i < items_n; ++i){	
+    auto foo = std::make_shared<std::vector<int>>(vec_size);
+    foo->at(vec_size-1) = 1;
+    queue->put(foo);
+  }
+
+  int total{0};
+
+	// get items_n out
+	for(int i = 0; i < items_n; ++i){
+    std::shared_ptr<std::vector<int>> foo = queue->get();
+    total += foo->at(vec_size-1);
+	}
+  
+  return total;
+}
+
+TEST_CASE( "PutGetShared", "[items_n, vec_size]" ) {
+    REQUIRE( PutGetShared(1, 1) == 1 );
+    BENCHMARK("PutGetShared 1 item") {
+        return PutGetShared(1, 1);
+    };
+
+    REQUIRE( PutGetShared(3, 1) == 3 );
+    BENCHMARK("PutGetShared 3 items") {
+        return PutGetShared(3, 1);
+    };
+
+    REQUIRE( PutGetShared(1e3, 1) == 1e3 );
+    BENCHMARK("PutGetShared 1000 items") {
+        return PutGetShared(1e3, 1);
+    };
+
+    REQUIRE( PutGetShared(1e3, 1) == 1e3 );
+    BENCHMARK("PutGetShared 1000 items, with 1000 elements each") {
+        return PutGetShared(1e3, 1e3);
+    };
+}
+

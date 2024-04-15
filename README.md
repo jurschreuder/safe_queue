@@ -142,6 +142,28 @@ std::cout << "Got 100 to big_queue\n";
 
 ```
 
+## shared\_ptr
+
+If you want to do something else with the object after you put it into the queue, you'll need the reference counting of the std::shared\_ptr to keep track of the memory lifetime of the object in the queue. Like in this example:
+
+```cpp
+// new queue
+auto queue = std::make_shared<SafeQueue<std::shared_ptr<std::vector<int>>>>();
+
+// put 100 in
+for(int i = 0; i < 100; ++i){	
+  auto foo = std::make_shared<std::vector<int>>(1e6);
+  queue->put(foo);
+}
+
+// get 100 out
+for(int i = 0; i < 100; ++i){
+  std::shared_ptr<std::vector<int>> foo = queue->get();
+}
+
+```
+
+
 #### Benchmarks:
 
 ```
